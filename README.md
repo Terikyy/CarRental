@@ -2,6 +2,8 @@
 
 A simple car rental management application that allows users to browse, search, and reserve cars, with a JavaScript frontend and a PHP backend using JSON flat files for persistence.
 
+A demo can be temporarily found at [CarRental Demo](http://rentn.us-east-1.elasticbeanstalk.com/).
+
 ---
 
 ## Features
