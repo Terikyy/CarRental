@@ -1,0 +1,39 @@
+:root {
+    /* Header Colors */
+    --header-bg: #1a1f2b;
+    --header-text: #ffffff;
+    --header-secondary: #cbd5e1;
+
+    /* Content Background Colors */
+    --content-bg-primary: #ffffff;
+    --content-bg-secondary: #f8f9fa;
+    --content-bg-tertiary: #e2e8f0;
+
+    /* Content Text Colors */
+    --content-text-primary: #2d3748;
+    --content-text-secondary: #4a5568;
+    --content-text-tertiary: #718096;
+
+    /* Accent Colors */
+    --accent-primary: #8b5cf6;
+    --accent-secondary: #7c3aed;
+    --accent-tertiary: #6d28d9;
+
+    /* Feedback Colors */
+    --success: #28a745;
+    --warning: #ffc107;
+    --error: #dc3545;
+    --info: #17a2b8;
+
+    /* Border Colors */
+    --border-dark: #2d3748;
+    --border-light: #e2e8f0;
+
+    /* Shadow */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* Additional Accent Variations */
+    --accent-light: #a78bfa;
+    --accent-hover: #7c3aed;
+    --accent-subtle: rgba(139, 92, 246, 0.1);
+}

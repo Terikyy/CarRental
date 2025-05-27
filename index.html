@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTN - Car Rental Service</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/main.js" defer></script>
+    <script src="js/search.js" defer></script>
+    <script src="js/utils.js" defer></script>
+</head>
+<body>
+<!-- Top header with logo, search and reservation -->
+<header>
+    <div class="logo">
+        <a id="home-link" href="index.html">
+            <img src="images/logo.png" alt="RENTN Logo">
+        </a>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search cars by type, brand, model...">
+        <div id="search-suggestions" class="search-suggestions hidden"></div>
+        <button class="search-button" id="search-btn">
+            <img src="images/search_icon.png" alt="Search">
+        </button>
+    </div>
+
+    <div class="reservation-link">
+        <a href="reservation.html" id="reservation-btn">
+            <img src="images/reservation_icon.png" alt="Reservation">
+            <span>Reservation</span>
+        </a>
+    </div>
+</header>
+
+<!-- Main container with sidebar filters and car grid -->
+<div class="container">
+    <!-- Sidebar with filters -->
+    <div class="sidebar">
+        <div class="filters-section">
+            <h3>Filter Cars</h3>
+
+            <!-- Car Type Filter -->
+            <div class="filter-group">
+                <details open>
+                    <summary>Car Type</summary>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="all" checked>
+                            <span class="checkmark"></span>
+                            All Types
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="Sedan">
+                            <span class="checkmark"></span>
+                            Sedan
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="SUV">
+                            <span class="checkmark"></span>
+                            SUV
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="Coupe">
+                            <span class="checkmark"></span>
+                            Coupe
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="Hatchback">
+                            <span class="checkmark"></span>
+                            Hatchback
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="carType" value="Wagon">
+                            <span class="checkmark"></span>
+                            Wagon
+                        </label>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Brand Filter -->
+            <div class="filter-group">
+                <details open>
+                    <summary>Brand</summary>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="all" checked>
+                            <span class="checkmark"></span>
+                            All Brands
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Toyota">
+                            <span class="checkmark"></span>
+                            Toyota
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Honda">
+                            <span class="checkmark"></span>
+                            Honda
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Ford">
+                            <span class="checkmark"></span>
+                            Ford
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="BMW">
+                            <span class="checkmark"></span>
+                            BMW
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Mercedes">
+                            <span class="checkmark"></span>
+                            Mercedes
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Mazda">
+                            <span class="checkmark"></span>
+                            Mazda
+                        </label>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+                <details>
+                    <summary>Price Range (per day)</summary>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="priceRange" value="all" checked>
+                            <span class="checkmark"></span>
+                            All Prices
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="priceRange" value="0-50">
+                            <span class="checkmark"></span>
+                            $0 - $50
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="priceRange" value="51-100">
+                            <span class="checkmark"></span>
+                            $51 - $100
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="priceRange" value="101-150">
+                            <span class="checkmark"></span>
+                            $101 - $150
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="priceRange" value="151+">
+                            <span class="checkmark"></span>
+                            $151+
+                        </label>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Availability Filter -->
+            <div class="filter-group">
+                <details>
+                    <summary>Availability</summary>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="availability" value="all" checked>
+                            <span class="checkmark"></span>
+                            All Cars
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="availability" value="available">
+                            <span class="checkmark"></span>
+                            Available Only
+                        </label>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Clear Filters Button -->
+            <button id="clear-filters" class="clear-filters-btn">Clear All Filters</button>
+        </div>
+    </div>
+
+    <!-- Main content area - Car grid -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Available Cars</h1>
+            <div class="results-info">
+                <span id="results-count">Loading cars...</span>
+            </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading cars...</p>
+        </div>
+
+        <!-- Error message -->
+        <div id="error-message" class="error-message hidden">
+            <p>Sorry, we couldn't load the cars. Please try again later.</p>
+            <button id="retry-btn" class="retry-btn">Retry</button>
+        </div>
+
+        <!-- Car grid container -->
+        <div id="car-grid" class="car-grid">
+            <!-- Car cards will be dynamically inserted here -->
+        </div>
+
+        <!-- No results message -->
+        <div id="no-results" class="no-results hidden">
+            <h3>No cars found</h3>
+            <p>Try adjusting your search criteria or filters.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>CarRent Pro</h4>
+            <p>Your trusted partner for premium car rentals</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="reservation.html">Reservations</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Contact Info</h4>
+            <p>Phone: (555) 123-4567</p>
+            <p>Email: info@carrentpro.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 CarRent Pro. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
