@@ -1,0 +1,206 @@
+/* Main container layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 80px; /* Space for fixed header */
+}
+
+/* Sidebar layout */
+.sidebar {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 280px;
+    height: calc(100vh - 80px);
+    background: var(--content-bg-primary);
+    border-right: 1px solid var(--border-light);
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    scrollbar-width: thin; /* For Firefox */
+}
+
+/* Main content layout */
+.main-content {
+    flex: 1;
+    margin-left: 280px; /* Space for fixed sidebar */
+    padding: 2rem;
+    background: var(--content-bg-secondary);
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin; /* For Firefox */
+}
+
+/* Main content scrollbar styling */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: var(--content-bg-secondary);
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
+
+/* Content header */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.content-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--content-text-primary);
+    opacity: 0;
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.results-info {
+    opacity: 0;
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+
+.results-info span {
+    font-size: 1.1rem;
+    color: var(--content-text-secondary);
+    font-weight: 500;
+}
+
+/* Loading states */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    gap: 1rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-light);
+    border-top: 3px solid var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading p {
+    color: var(--content-text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Error states */
+.error-message {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--content-bg-primary);
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+}
+
+.error-message p {
+    color: var(--error);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.retry-btn {
+    background: var(--accent-primary);
+    color: var(--content-bg-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.retry-btn:hover {
+    background: var(--accent-secondary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-subtle);
+}
+
+/* No results state */
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--content-bg-primary);
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+}
+
+.no-results h3 {
+    color: var(--content-text-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.no-results p {
+    color: var(--content-text-secondary);
+    font-size: 1rem;
+}
+
+/* Hidden utility */
+.hidden {
+    display: none !important;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+
+    .content-header h1 {
+        font-size: 2rem;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}

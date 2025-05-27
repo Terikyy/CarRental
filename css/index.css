@@ -1,0 +1,11 @@
+/* Import base styles first */
+@import 'base/variables.css';
+@import 'base/reset.css';
+
+/* Import layout styles */
+@import 'layout/container.css';
+
+/* Import component styles */
+@import 'components/header.css';
+@import 'components/sidebar.css';
+@import 'components/car-tile.css';
