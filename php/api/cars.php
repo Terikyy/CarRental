@@ -109,11 +109,17 @@ switch ($action) {
 
 // Helper functions
 
+// Update filterCars function in php/api/cars.php
 function filterCars($cars) {
     $filteredCars = $cars;
 
     // Filter by car type
-    if (isset($_GET['carType']) && $_GET['carType'] !== '') {
+    if (isset($_GET['carType']) && is_array($_GET['carType'])) {
+        $carTypes = $_GET['carType'];
+        $filteredCars = array_filter($filteredCars, function($car) use ($carTypes) {
+            return in_array($car['carType'], $carTypes);
+        });
+    } else if (isset($_GET['carType']) && $_GET['carType'] !== '') {
         $carType = $_GET['carType'];
         $filteredCars = array_filter($filteredCars, function($car) use ($carType) {
             return $car['carType'] === $carType;
@@ -121,16 +127,65 @@ function filterCars($cars) {
     }
 
     // Filter by brand
-    if (isset($_GET['brand']) && $_GET['brand'] !== '') {
+    if (isset($_GET['brand']) && is_array($_GET['brand'])) {
+        $brands = $_GET['brand'];
+        $filteredCars = array_filter($filteredCars, function($car) use ($brands) {
+            return in_array($car['brand'], $brands);
+        });
+    } else if (isset($_GET['brand']) && $_GET['brand'] !== '') {
         $brand = $_GET['brand'];
         $filteredCars = array_filter($filteredCars, function($car) use ($brand) {
             return $car['brand'] === $brand;
         });
     }
 
+    // Filter by price range
+    if (isset($_GET['priceRange']) && is_array($_GET['priceRange'])) {
+        $priceRanges = $_GET['priceRange'];
+        $filteredCars = array_filter($filteredCars, function($car) use ($priceRanges) {
+            $price = (float)$car['pricePerDay'];
+
+            foreach ($priceRanges as $range) {
+                switch ($range) {
+                    case '0-50':
+                        if ($price >= 0 && $price <= 50) return true;
+                        break;
+                    case '51-100':
+                        if ($price > 50 && $price <= 100) return true;
+                        break;
+                    case '101-150':
+                        if ($price > 100 && $price <= 150) return true;
+                        break;
+                    case '151+':
+                        if ($price > 150) return true;
+                        break;
+                }
+            }
+            return false;
+        });
+    } else if (isset($_GET['priceRange']) && $_GET['priceRange'] !== '') {
+        $priceRange = $_GET['priceRange'];
+        $filteredCars = array_filter($filteredCars, function($car) use ($priceRange) {
+            $price = (float)$car['pricePerDay'];
+
+            switch ($priceRange) {
+                case '0-50':
+                    return $price >= 0 && $price <= 50;
+                case '51-100':
+                    return $price > 50 && $price <= 100;
+                case '101-150':
+                    return $price > 100 && $price <= 150;
+                case '151+':
+                    return $price > 150;
+                default:
+                    return true;
+            }
+        });
+    }
+
     // Filter by availability
-    if (isset($_GET['available'])) {
-        $available = $_GET['available'] === 'true' || $_GET['available'] === '1';
+    if (isset($_GET['available']) && $_GET['available'] !== '') {
+        $available = $_GET['available'] === 'true';
         $filteredCars = array_filter($filteredCars, function($car) use ($available) {
             return $car['available'] === $available;
         });
@@ -227,3 +282,4 @@ function getFilterOptions($cars) {
     ];
 }
 ?>
+

@@ -162,6 +162,12 @@ header {
     overflow: hidden;
 }
 
+.reservation-link a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .reservation-link::before {
     content: '';
     position: absolute;

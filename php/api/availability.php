@@ -118,3 +118,4 @@ function updateCarAvailability($vin, $available, $filePath, $carsData) {
     return ['success' => true];
 }
 ?>
+
