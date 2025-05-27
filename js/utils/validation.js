@@ -1,4 +1,3 @@
-// js/utils/validation.js
 const ValidationUtil = {
     // Check if string is empty or whitespace
     isEmpty(value) {
@@ -29,8 +28,6 @@ const ValidationUtil = {
 
         const date = new Date(dateString);
         return !isNaN(date.getTime());
-
-
     },
 
     // Check if date is in the future
@@ -45,7 +42,7 @@ const ValidationUtil = {
     // Validate rental period (positive integer)
     isValidRentalPeriod(period) {
         return Number.isInteger(Number(period)) && Number(period) > 0;
-    }
+    },
 };
 
 export default ValidationUtil;

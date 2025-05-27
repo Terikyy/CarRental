@@ -18,6 +18,9 @@ const SearchBar = {
             return;
         }
 
+        // Disable browser's built-in autocomplete
+        this.searchInput.setAttribute('autocomplete', 'off');
+
         this.setupEventListeners();
     },
 
@@ -84,21 +87,8 @@ const SearchBar = {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
 
-            // Format the suggestion based on type
             let displayText = suggestion.value;
-            let prefixIcon = '';
-
-            switch (suggestion.type) {
-                case 'carType':
-                    prefixIcon = '<span class="suggestion-icon">🚗</span>';
-                    break;
-                case 'brand':
-                    prefixIcon = '<span class="suggestion-icon">🏢</span>';
-                    break;
-                case 'model':
-                    prefixIcon = '<span class="suggestion-icon">📋</span>';
-                    break;
-            }
+            let prefixIcon = '<span class="suggestion-icon">🚘</span>';
 
             item.innerHTML = `${prefixIcon} ${displayText}`;
 
@@ -132,11 +122,22 @@ const SearchBar = {
     },
 
     showSuggestions() {
+        // First remove the hidden class completely
         this.suggestionsContainer.classList.remove('hidden');
+        // Use a small timeout to ensure DOM updates before adding the show class
+        // This helps the CSS transition work properly
+        setTimeout(() => {
+            this.suggestionsContainer.classList.add('show');
+        }, 10);
     },
 
     hideSuggestions() {
-        this.suggestionsContainer.classList.add('hidden');
+        // First remove the show class to trigger the fade out
+        this.suggestionsContainer.classList.remove('show');
+        // Add hidden class after the transition completes
+        setTimeout(() => {
+            this.suggestionsContainer.classList.add('hidden');
+        }, 200); // Match this to your CSS transition duration
     }
 };
 

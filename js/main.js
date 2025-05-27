@@ -41,4 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'index.html';
         });
     }
+
+    // Reset filters button in the "no results" section
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', async () => {
+            // Use the existing clear filters functionality
+            Filters.clearAllFilters();
+
+            // Also clear search input
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+
+            // Reload cars with default filters
+            await CarGrid.loadCars();
+        });
+    }
 });

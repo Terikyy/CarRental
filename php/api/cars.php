@@ -95,12 +95,6 @@ switch ($action) {
         echo json_encode(['suggestions' => $suggestions]);
         break;
 
-    case 'getFilters':
-        // Get available filter options
-        $filters = getFilterOptions($cars);
-        echo json_encode($filters);
-        break;
-
     default:
         http_response_code(400);
         echo json_encode(['error' => 'Invalid action']);
@@ -109,7 +103,6 @@ switch ($action) {
 
 // Helper functions
 
-// Update filterCars function in php/api/cars.php
 function filterCars($cars) {
     $filteredCars = $cars;
 
@@ -203,26 +196,6 @@ function findCarByVin($cars, $vin) {
     return null;
 }
 
-function searchCars($cars, $keyword) {
-    return array_filter($cars, function($car) use ($keyword) {
-        // Search in multiple fields
-        $searchableFields = [
-            strtolower($car['carType']),
-            strtolower($car['brand']),
-            strtolower($car['carModel']),
-            strtolower($car['description'])
-        ];
-
-        foreach ($searchableFields as $field) {
-            if (strpos($field, $keyword) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    });
-}
-
 function getSearchSuggestions($cars, $keyword) {
     if (empty($keyword)) {
         return [];
@@ -232,21 +205,58 @@ function getSearchSuggestions($cars, $keyword) {
     $types = [];
     $brands = [];
     $models = [];
+    $combinedModels = [];
+    $brandTypes = []; // New array for brand+type combinations
+
+    // Handle possible space-separated terms
+    $keywords = explode(' ', strtolower($keyword));
+    $singleKeyword = strtolower($keyword);
 
     foreach ($cars as $car) {
-        // Get car type suggestions
-        if (strpos(strtolower($car['carType']), $keyword) !== false) {
+        $carType = strtolower($car['carType']);
+        $brand = strtolower($car['brand']);
+        $model = strtolower($car['carModel']);
+        $combinedBrandModel = strtolower($car['brand'] . ' ' . $car['carModel']);
+        $combinedBrandType = strtolower($car['brand'] . ' ' . $car['carType']);
+
+        // Check for single keyword matches
+        if (strpos($carType, $singleKeyword) !== false) {
             $types[$car['carType']] = true;
         }
 
-        // Get brand suggestions
-        if (strpos(strtolower($car['brand']), $keyword) !== false) {
+        if (strpos($brand, $singleKeyword) !== false) {
             $brands[$car['brand']] = true;
         }
 
-        // Get model suggestions
-        if (strpos(strtolower($car['carModel']), $keyword) !== false) {
+        if (strpos($model, $singleKeyword) !== false) {
             $models[$car['brand'] . ' ' . $car['carModel']] = true;
+        }
+
+        // Check for combined search terms with multiple words
+        if (count($keywords) > 1) {
+            // Check brand+model combinations
+            $matchesAllBrandModel = true;
+            foreach ($keywords as $part) {
+                if (strpos($combinedBrandModel, $part) === false) {
+                    $matchesAllBrandModel = false;
+                    break;
+                }
+            }
+            if ($matchesAllBrandModel) {
+                $combinedModels[$car['brand'] . ' ' . $car['carModel']] = true;
+            }
+
+            // Check brand+type combinations
+            $matchesAllBrandType = true;
+            foreach ($keywords as $part) {
+                if (strpos($combinedBrandType, $part) === false) {
+                    $matchesAllBrandType = false;
+                    break;
+                }
+            }
+            if ($matchesAllBrandType) {
+                $brandTypes[$car['brand'] . ' ' . $car['carType']] = true;
+            }
         }
     }
 
@@ -263,23 +273,71 @@ function getSearchSuggestions($cars, $keyword) {
         $suggestions[] = ['type' => 'model', 'value' => $model];
     }
 
+    // Add brand+type combinations with high priority
+    foreach (array_keys($brandTypes) as $brandType) {
+        array_unshift($suggestions, ['type' => 'brandType', 'value' => $brandType]);
+    }
+
+    // Add brand+model combinations with highest priority
+    foreach (array_keys($combinedModels) as $model) {
+        if (!isset($models[$model])) {
+            array_unshift($suggestions, ['type' => 'model', 'value' => $model]);
+        }
+    }
+
     // Limit suggestions to a reasonable number
     return array_slice($suggestions, 0, 5);
 }
 
-function getFilterOptions($cars) {
-    $carTypes = [];
-    $brands = [];
+function searchCars($cars, $keyword) {
+    // Split the keyword into parts for multi-word searches
+    $keywords = explode(' ', strtolower($keyword));
 
-    foreach ($cars as $car) {
-        $carTypes[$car['carType']] = true;
-        $brands[$car['brand']] = true;
-    }
+    return array_filter($cars, function($car) use ($keyword, $keywords) {
+        // Search in multiple fields
+        $searchableFields = [
+            strtolower($car['carType']),
+            strtolower($car['brand']),
+            strtolower($car['carModel']),
+            strtolower($car['description']),
+            strtolower($car['brand'] . ' ' . $car['carModel']), // Combined brand+model
+            strtolower($car['brand'] . ' ' . $car['carType'])   // Combined brand+type
+        ];
 
-    return [
-        'carTypes' => array_keys($carTypes),
-        'brands' => array_keys($brands)
-    ];
+        // For single-word searches
+        $singleKeyword = strtolower($keyword);
+        foreach ($searchableFields as $field) {
+            if (strpos($field, $singleKeyword) !== false) {
+                return true;
+            }
+        }
+
+        // For multi-word searches (like "Toyota Sedan" or "Toyota Corolla")
+        if (count($keywords) > 1) {
+            // Check against all combinations of fields
+            $combinedFields = [
+                strtolower($car['brand'] . ' ' . $car['carModel']),
+                strtolower($car['brand'] . ' ' . $car['carType']),
+                strtolower($car['carType'] . ' ' . $car['brand']),
+                strtolower($car['carModel'] . ' ' . $car['brand'])
+            ];
+
+            foreach ($combinedFields as $field) {
+                $matchesAll = true;
+                foreach ($keywords as $part) {
+                    if (strpos($field, $part) === false) {
+                        $matchesAll = false;
+                        break;
+                    }
+                }
+                if ($matchesAll) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    });
 }
-?>
 
+?>

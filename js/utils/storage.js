@@ -1,4 +1,3 @@
-// js/utils/storage.js
 const StorageUtil = {
     // Save data to localStorage
     save(key, data) {

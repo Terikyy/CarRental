@@ -1,4 +1,5 @@
 <?php
+// php/api/availability.php
 // Set headers for JSON response
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -118,4 +119,3 @@ function updateCarAvailability($vin, $available, $filePath, $carsData) {
     return ['success' => true];
 }
 ?>
-

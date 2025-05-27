@@ -111,9 +111,9 @@ const CarGrid = {
         </div>
         <p class="car-description">${car.description}</p>
         <div class="car-actions">
-          <a href="reservation.html?vin=${car.vin}" class="action-btn book-btn" ${!isAvailable ? 'disabled' : ''}>
+          <button class="action-btn book-btn" ${!isAvailable ? 'disabled' : ''}>
             ${isAvailable ? 'Rent This Car' : 'Not Available'}
-          </a>
+          </button>
         </div>
       </div>
     `;
@@ -125,6 +125,16 @@ const CarGrid = {
             bookBtn.style.opacity = '0.6';
             bookBtn.style.cursor = 'not-allowed';
             bookBtn.style.background = '#999';
+        } else {
+            // Add click handler to store the car data and navigate
+            bookBtn.addEventListener('click', () => {
+                // Use the StorageUtil to save the selected car VIN
+                import('../utils/storage.js').then(module => {
+                    const StorageUtil = module.default;
+                    StorageUtil.save('selectedCarVin', car.vin);
+                    window.location.href = 'reservation.html';
+                });
+            });
         }
 
         return card;

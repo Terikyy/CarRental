@@ -1,0 +1,407 @@
+/* Import base styles first */
+@import 'base/variables.css';
+@import 'base/reset.css';
+
+/* Import layout styles */
+@import 'layout/container.css';
+
+/* Import component styles */
+@import 'components/header.css';
+
+/* Reservation Page Specific Styles */
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--header-text);
+}
+
+.cancel-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--header-text);
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.cancel-button:hover {
+    opacity: 1;
+}
+
+.cancel-button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+/* Reservation container */
+.reservation-container {
+    padding: 0;
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    background: var(--content-bg-secondary);
+    display: flex;
+    justify-content: center;
+}
+
+/* Card styles */
+.reservation-card {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 80px);
+    animation: fadeIn 0.5s ease;
+}
+
+/* Left section - Car info (2/3 width) */
+.car-info-section {
+    display: flex;
+    flex-direction: column;
+    width: 66.66%;
+    background: var(--content-bg-primary);
+    overflow-y: auto;
+}
+
+.car-image-container {
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+    background: var(--content-bg-secondary);
+}
+
+.car-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.car-details {
+    padding: 2rem;
+}
+
+.car-details h2 {
+    font-size: 2rem;
+    color: var(--content-text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.car-specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.spec-label {
+    font-size: 0.85rem;
+    color: var(--content-text-tertiary);
+}
+
+.spec-value {
+    font-weight: 600;
+    color: var(--content-text-primary);
+}
+
+.spec-value.highlight {
+    color: var(--accent-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.car-description {
+    color: var(--content-text-secondary);
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+/* Right section - Form (1/3 width) */
+.reservation-form-section {
+    width: 33.33%;
+    padding: 2rem;
+    background: var(--content-bg-primary);
+    border-left: 1px solid var(--border-light);
+    overflow-y: auto;
+    height: 100%;
+}
+
+.reservation-form-section h3 {
+    font-size: 1.5rem;
+    color: var(--content-text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--content-bg-secondary);
+    border-radius: 12px;
+}
+
+.form-section h4 {
+    font-size: 1.1rem;
+    color: var(--content-text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--content-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--content-bg-primary);
+    color: var(--content-text-primary);
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.validation-message {
+    font-size: 0.85rem;
+    color: var(--error);
+    margin-top: 0.5rem;
+    min-height: 1.2rem;
+}
+
+/* Pricing summary */
+.pricing-summary {
+    background: var(--accent-subtle);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--content-text-secondary);
+}
+
+.price-row.total {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--content-text-primary);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Form actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.primary-button, .secondary-button {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.primary-button:hover {
+    background: var(--accent-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--accent-subtle);
+}
+
+.secondary-button {
+    background: var(--content-bg-tertiary);
+    color: var(--content-text-secondary);
+}
+
+.secondary-button:hover {
+    background: var(--border-light);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Messages */
+.no-car-message, .car-unavailable, .order-result {
+    text-align: center;
+    background: var(--content-bg-primary);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+}
+
+.no-car-message h2, .car-unavailable h2, .order-result h2 {
+    font-size: 1.8rem;
+    color: var(--content-text-primary);
+    margin-bottom: 1rem;
+}
+
+.no-car-message p, .car-unavailable p, .order-result p {
+    color: var(--content-text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.order-details {
+    background: var(--content-bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.order-details p {
+    margin-bottom: 0.5rem;
+}
+
+.order-details p:last-child {
+    margin-bottom: 0;
+}
+
+.success-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.error-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: var(--error);
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+/* Helper class */
+.hidden {
+    display: none !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .car-specs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .reservation-card {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .car-info-section,
+    .reservation-form-section {
+        width: 100%;
+        height: auto;
+    }
+
+    .car-image-container {
+        height: 40vh;
+    }
+
+    .reservation-form-section {
+        border-left: none;
+        border-top: 1px solid var(--border-light);
+    }
+}
+
+@media (max-width: 768px) {
+    .reservation-container {
+        padding: 0;
+    }
+
+    .car-details {
+        padding: 1.5rem;
+    }
+
+    .car-specs {
+        gap: 1rem;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .car-image-container {
+        height: 30vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .car-details h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-section {
+        padding: 1rem 0.75rem;
+    }
+
+    .car-specs {
+        grid-template-columns: 1fr;
+    }
+
+    .car-details,
+    .reservation-form-section {
+        padding: 1rem;
+    }
+}

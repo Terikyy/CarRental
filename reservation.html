@@ -2,9 +2,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTN - Car Reservation</title>
+    <link rel="stylesheet" href="css/reservation.css">
+    <script type="module" src="js/reservation.js"></script>
 </head>
 <body>
+<header>
+    <div class="logo">
+        <a id="home-link" href="index.html">
+            <img src="images/logo.png" alt="RENTN Logo">
+        </a>
+    </div>
 
+    <div class="header-title">
+        Reservation
+    </div>
+
+    <a href="index.html" class="cancel-button">
+        <img src="images/cancel_icon.png" alt="Cancel">
+        <span>Cancel</span>
+    </a>
+</header>
+
+<div class="reservation-container">
+    <!-- No car selected message -->
+    <div id="no-car-message" class="no-car-message hidden">
+        <h2>No Car Selected</h2>
+        <p>Please go back to the main page and select a car you would like to reserve.</p>
+        <a href="index.html" class="primary-button">Browse Cars</a>
+    </div>
+
+    <!-- Car unavailable message -->
+    <div id="car-unavailable" class="car-unavailable hidden">
+        <h2>Car Not Available</h2>
+        <p>Sorry, this car is no longer available for rental. Please select another car.</p>
+        <a href="index.html" class="primary-button">Browse Cars</a>
+    </div>
+
+    <!-- Order success message -->
+    <div id="order-success" class="order-result hidden">
+        <h2><span class="success-icon">✓</span> Reservation Successful!</h2>
+        <p>Your car has been reserved successfully. You will receive a confirmation email shortly at <span id="confirm-email"></span>.</p>
+        <div class="order-details">
+            <p>Rental Start Date: <span id="confirm-date"></span></p>
+            <p>Rental Duration: <span id="confirm-days"></span> days</p>
+        </div>
+        <a href="index.html" class="primary-button">Return to Home</a>
+    </div>
+
+    <!-- Order error message -->
+    <div id="order-error" class="order-result hidden">
+        <h2><span class="error-icon">✗</span> Reservation Failed</h2>
+        <p id="error-message-text">Something went wrong with your reservation. Please try again.</p>
+        <a href="index.html" class="primary-button">Return to Home</a>
+    </div>
+
+    <!-- Reservation form -->
+    <div id="reservation-card" class="reservation-card hidden">
+        <div class="car-info-section">
+            <div class="car-image-container">
+                <img id="car-image" src="" alt="Car Image">
+            </div>
+            <div class="car-details">
+                <h2 id="car-title"></h2>
+                <div class="car-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Type:</div>
+                        <div id="car-type" class="spec-value"></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Year:</div>
+                        <div id="car-year" class="spec-value"></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Mileage:</div>
+                        <div id="car-mileage" class="spec-value"></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Fuel Type:</div>
+                        <div id="car-fuel" class="spec-value"></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Seats:</div>
+                        <div id="car-seats" class="spec-value"></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price per day:</div>
+                        <div id="car-price" class="spec-value highlight"></div>
+                    </div>
+                </div>
+                <div class="car-description">
+                    <p id="car-description-text"></p>
+                </div>
+            </div>
+        </div>
+        <div class="reservation-form-section">
+            <h3>Complete Your Reservation</h3>
+            <form id="reservation-form">
+                <div class="form-section">
+                    <h4>Personal Information</h4>
+                    <div class="form-group">
+                        <label for="customer-name">Full Name</label>
+                        <input type="text" id="customer-name" name="customer-name" required>
+                        <div id="name-validation" class="validation-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email">Email Address</label>
+                        <input type="email" id="customer-email" name="customer-email" required>
+                        <div id="email-validation" class="validation-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">Phone Number</label>
+                        <input type="tel" id="customer-phone" name="customer-phone" required>
+                        <div id="phone-validation" class="validation-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-license">Driver's License Number</label>
+                        <input type="text" id="customer-license" name="customer-license" required>
+                        <div id="license-validation" class="validation-message"></div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Rental Details</h4>
+                    <div class="form-group">
+                        <label for="rental-start">Start Date</label>
+                        <input type="date" id="rental-start" name="rental-start" required>
+                        <div id="start-date-validation" class="validation-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rental-period">Rental Period (days)</label>
+                        <input type="number" id="rental-period" name="rental-period" min="1" value="1" required>
+                        <div id="rental-period-validation" class="validation-message"></div>
+                    </div>
+                </div>
+
+                <div class="form-section pricing-summary">
+                    <h4>Pricing Summary</h4>
+                    <div class="price-row">
+                        <div>Daily Rate:</div>
+                        <div id="daily-rate">$0</div>
+                    </div>
+                    <div class="price-row">
+                        <div>Number of Days:</div>
+                        <div id="days-count">0</div>
+                    </div>
+                    <div class="price-row total">
+                        <div>Total Price:</div>
+                        <div id="total-price">$0</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submit-reservation-btn" class="primary-button">Complete Reservation</button>
+                    <button type="button" id="clear-form-btn" class="secondary-button">Reset Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

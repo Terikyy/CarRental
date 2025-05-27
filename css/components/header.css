@@ -108,6 +108,7 @@ header {
     border-radius: 12px;
     margin-top: 0.5rem;
     max-height: 200px;
+    overflow-x: hidden;
     overflow-y: auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     z-index: 1001;
@@ -139,7 +140,9 @@ header {
 .suggestion-item:hover {
     background: var(--accent-subtle);
     color: var(--accent-primary);
-    transform: translateX(4px);
+    /* Change from translateX to padding adjustment */
+    padding-left: 1.25rem; /* Increase left padding instead of using transform */
+    padding-right: 0.75rem; /* Decrease right padding to maintain overall width */
 }
 
 .suggestion-item.highlighted {
@@ -148,6 +151,10 @@ header {
 }
 
 /* Reservation link */
+.reservation-container {
+    display: flex;
+}
+
 .reservation-link {
     display: flex;
     align-items: center;
@@ -160,12 +167,6 @@ header {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-}
-
-.reservation-link a {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
 }
 
 .reservation-link::before {
