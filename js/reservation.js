@@ -84,6 +84,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     rentalPeriod.addEventListener('input', validateRentalPeriod);
     rentalPeriod.addEventListener('input', updateTotalPrice);
 
+    // Add input listeners to all form fields for validation
+    const formFields = [customerName, customerPhone, customerEmail, customerLicense, rentalStart, rentalPeriod];
+    formFields.forEach(field => {
+        field.addEventListener('input', validateForm);
+        field.addEventListener('change', validateForm);
+    });
+
     // Save form data when user leaves page
     window.addEventListener('beforeunload', saveFormData);
 
@@ -342,16 +349,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function validateForm() {
-        // Enable submit button only if all validations pass
-        const isValid =
-            !ValidationUtil.isEmpty(customerName.value) &&
-            !ValidationUtil.isEmpty(customerPhone.value) && ValidationUtil.isValidPhone(customerPhone.value) &&
-            !ValidationUtil.isEmpty(customerEmail.value) && ValidationUtil.isValidEmail(customerEmail.value) &&
-            !ValidationUtil.isEmpty(customerLicense.value) && ValidationUtil.isValidDriversLicense(customerLicense.value) &&
-            !ValidationUtil.isEmpty(rentalStart.value) && ValidationUtil.isFutureDate(rentalStart.value) &&
-            !ValidationUtil.isEmpty(rentalPeriod.value) && ValidationUtil.isValidRentalPeriod(rentalPeriod.value);
+        const isNameValid = !ValidationUtil.isEmpty(customerName.value);
+        const isPhoneValid = !ValidationUtil.isEmpty(customerPhone.value) && ValidationUtil.isValidPhone(customerPhone.value);
+        const isEmailValid = !ValidationUtil.isEmpty(customerEmail.value) && ValidationUtil.isValidEmail(customerEmail.value);
+        const isLicenseValid = !ValidationUtil.isEmpty(customerLicense.value) && ValidationUtil.isValidDriversLicense(customerLicense.value);
+        const isStartDateValid = !ValidationUtil.isEmpty(rentalStart.value) && ValidationUtil.isFutureDate(rentalStart.value);
+        const isRentalPeriodValid = !ValidationUtil.isEmpty(rentalPeriod.value) && ValidationUtil.isValidRentalPeriod(rentalPeriod.value);
 
-        submitBtn.disabled = !isValid;
+        submitBtn.disabled = !(isNameValid && isPhoneValid && isEmailValid && isLicenseValid && isStartDateValid && isRentalPeriodValid);
     }
 
     async function handleFormSubmit(event) {
