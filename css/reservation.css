@@ -343,12 +343,15 @@ button:disabled {
     .reservation-card {
         flex-direction: column;
         height: auto;
+        min-height: 100%;
+        overflow-y: visible;
     }
 
     .car-info-section,
     .reservation-form-section {
         width: 100%;
         height: auto;
+        overflow-y: visible;
     }
 
     .car-image-container {
@@ -359,11 +362,23 @@ button:disabled {
         border-left: none;
         border-top: 1px solid var(--border-light);
     }
+
+    .reservation-container {
+        overflow-y: auto;
+        display: block;
+        padding: 0 0 2rem 0;
+    }
+
+    body {
+        overflow-y: auto;
+    }
 }
 
 @media (max-width: 768px) {
     .reservation-container {
-        padding: 0;
+        padding: 0 0 2rem 0;
+        height: auto;
+        min-height: 100%;
     }
 
     .car-details {
